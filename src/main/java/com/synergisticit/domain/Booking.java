@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,4 +26,7 @@ public class Booking {
     private String status;
     private int totalRooms;
     private int totalGuests;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Guest> guestList = new ArrayList<>();
 }

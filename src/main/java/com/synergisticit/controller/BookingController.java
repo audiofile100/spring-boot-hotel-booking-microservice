@@ -2,24 +2,39 @@ package com.synergisticit.controller;
 
 import com.synergisticit.domain.Booking;
 import com.synergisticit.repository.BookingRepository;
+import com.synergisticit.service.BookingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 public class BookingController {
 
-    private final BookingRepository bookingRepository;
+    private final BookingService service;
 
-    public BookingController(BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
+    public BookingController(BookingService service) {
+        this.service = service;
     }
 
     @PostMapping(value = "/api/booking")
     public ResponseEntity<?> saveBookingDetails(@RequestBody Booking booking) {
 
-        return new ResponseEntity<>(bookingRepository.save(booking), HttpStatus.OK);
+        return new ResponseEntity<>(service.save(booking), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/api/booking/{cid}")
+    public ResponseEntity<?> getBookingsByCid(@PathVariable int cid) {
+
+        return new ResponseEntity<>(service.findByCid(cid), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/api/booking/{id}")
+    public ResponseEntity<?> cancelBooking(@PathVariable int id) {
+        log.debug("canceling booking " + id);
+        service.cancelBooking(id);
+
+        return new ResponseEntity<>("canceled booking " + id, HttpStatus.OK);
     }
 }

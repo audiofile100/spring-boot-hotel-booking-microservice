@@ -25,6 +25,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public Booking findById(int bookingId) {
+        Optional<Booking> opt = repo.findById(bookingId);
+        return opt.orElse(null);
+    }
+
+    @Override
     public List<Booking> findByCid(int cid) {
         List<Booking> list = repo.findAllByCid(cid);
         for (Booking b : list) {

@@ -24,7 +24,13 @@ public class BookingController {
         return new ResponseEntity<>(service.save(booking), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/api/booking/{cid}")
+    @GetMapping(value = "/api/booking/{id}")
+    public ResponseEntity<?> getBookingById(@PathVariable int id) {
+
+        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/api/booking/cid/{cid}")
     public ResponseEntity<?> getBookingsByCid(@PathVariable int cid) {
 
         return new ResponseEntity<>(service.findByCid(cid), HttpStatus.OK);
